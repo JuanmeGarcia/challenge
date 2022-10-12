@@ -1,4 +1,4 @@
- Este repositorio ha sido creado únicamente para realizar el challenge de "Techify".
+# Este repositorio ha sido creado únicamente para realizar el challenge de "Techify".
 
 ## Tecnologias utilizadas:
 
@@ -19,3 +19,5 @@
  5. En el navegador, ir a http://localhost:3000
 
 ## Tiempo total de desarrollo:
+
+![Tiempo total dedicado en realizar el challenge](tiempo-total.png)
