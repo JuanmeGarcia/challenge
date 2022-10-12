@@ -3,11 +3,6 @@ import { createContext } from "react";
 import { Card } from "../components";
 import { getSpecificsGifs } from "../service";
 
-interface SearchContextType {
-    search: string;
-    setSearch: (search: string) => void;
-}
-
 interface Props {
     children: React.ReactNode;
 }
@@ -31,7 +26,7 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
 
     const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
         e.preventDefault();
-        setQuery(search);
+        setQuery(search.trim());
     }
 
     const handleSearchedFavourites = (id: string) => {
