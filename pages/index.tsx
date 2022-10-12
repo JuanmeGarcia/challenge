@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
-import { Card, CardContainer, SearchInput } from '../components'
+import { Card, CardContainer, SearchInput, SkeletonComponent } from '../components'
 import { useMemo, useState } from 'react'
 import { useSearchContext } from '../context/useSearchContext'
 import { getTrendingGifs } from '../service'
@@ -12,7 +12,7 @@ interface Props {
 const Home: NextPage<Props> = ({ cards }) => {
   const [favourites, setFavourites] = useState<any>(cards)
 
-  const { searchedData, handleSearchedFavourites } = useSearchContext()
+  const { searchedData, handleSearchedFavourites, isloading } = useSearchContext()
 
   const handleFavourite = (id: string) => {
     setFavourites((prevFavourites: Card[]) => (
@@ -49,6 +49,7 @@ const Home: NextPage<Props> = ({ cards }) => {
     ))
   ), [searchedData]) 
 
+
   return (
     <>
       <Head>
@@ -60,8 +61,9 @@ const Home: NextPage<Props> = ({ cards }) => {
       <main className='main'>
         <SearchInput />
         <CardContainer>
-          {
-            searchedData.length > 0
+          {isloading 
+            ? <SkeletonComponent />
+            : renderSearchedCards.length > 0
               ? renderSearchedCards
               : renderCards
           }

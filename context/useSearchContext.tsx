@@ -13,12 +13,14 @@ const SearchContext = createContext({
     searchedData: [],
     handleOnSubmit: (e: React.FormEvent<HTMLFormElement>):void => {},
     handleSearchedFavourites: (id: string):void => {},
+    isloading: false,
 })
 
 export const SearchContextProvider: FC<Props> = ({children}) => {
     const [search, setSearch] = useState('');
     const [searchedData, setSearchedData] = useState<any>([]);
     const [query, setQuery] = useState('')
+    const [isloading, setIsLoading] = useState(false)
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>):void => {
         setSearch(e.target.value);
@@ -27,6 +29,7 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
     const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
         e.preventDefault();
         setQuery(search.trim());
+        setSearch(prevSearch => prevSearch.trim())
     }
 
     const handleSearchedFavourites = (id: string) => {
@@ -42,6 +45,7 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
 
     const getData = async () => {
         try {
+            setIsLoading(true);
             const { data } = await getSpecificsGifs(query);
             const cards: Card[] = data.map((card: any) => ({
                 id: card.id,
@@ -49,6 +53,7 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
                 isFavourite: false
             }))
             setSearchedData(cards);
+            setIsLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -64,7 +69,8 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
             handleSearch,
             searchedData,
             handleOnSubmit,
-            handleSearchedFavourites
+            handleSearchedFavourites,
+            isloading
         }}>
             {children}
         </SearchContext.Provider>
