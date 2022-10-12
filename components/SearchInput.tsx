@@ -19,7 +19,7 @@ export const SearchInput = () => {
         window.addEventListener('resize', handleResize)
 
         return () => window.removeEventListener('resize', handleResize)
-    })
+    }, [])
 
     const { search, handleSearch, handleOnSubmit } = useSearchContext();
 

@@ -1,7 +1,7 @@
-import axios from "axios";
 import { FC, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { Card } from "../components";
+import { getSpecificsGifs } from "../service";
 
 interface SearchContextType {
     search: string;
@@ -47,8 +47,8 @@ export const SearchContextProvider: FC<Props> = ({children}) => {
 
     const getData = async () => {
         try {
-            const { data } = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=HC5YScnd2Kws9G5xAgZFUAC0XGj16Xse&q=${query}`)
-            const cards: Card[] = data.data.map((card: any) => ({
+            const { data } = await getSpecificsGifs(query);
+            const cards: Card[] = data.map((card: any) => ({
                 id: card.id,
                 image: card.images.original.url,
                 isFavourite: false

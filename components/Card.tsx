@@ -15,12 +15,12 @@ export const Card: FC<Card> = ({image, isFavourite, handleFavourite}) => {
         <div className='card'>
             <div
                 className={`card-icon ${isFavourite ? 'card-icon--favourite' : ''}`}
+                onClick={handleFavourite}
             >
                 <FavoriteBorder 
                     sx={{
                         color: `${isFavourite ? '#fff' : '#000'}`
                     }}
-                    onClick={handleFavourite}
                 />
             </div>
             <img src={image} alt="imagen" />

@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { Card, CardContainer, SearchInput } from '../components'
-import { useState } from 'react'
-import axios from 'axios'
+import { useMemo, useState } from 'react'
 import { useSearchContext } from '../context/useSearchContext'
+import { getTrendingGifs } from '../service'
 
 interface Props {
   cards: Card[]
@@ -25,27 +25,29 @@ const Home: NextPage<Props> = ({ cards }) => {
     ))
   }
 
-  const renderCards = favourites.map((card: Card) => (
-    <Card 
-      key={card.id}
-      id={card.id}
-      image={card.image}
-      isFavourite={card.isFavourite}
-      handleFavourite={() => handleFavourite(card.id)}
-    />
-  ))
+  const renderCards = useMemo(() =>(
+    favourites.map((card: Card) => (
+      <Card 
+        key={card.id}
+        id={card.id}
+        image={card.image}
+        isFavourite={card.isFavourite}
+        handleFavourite={() => handleFavourite(card.id)}
+      />
+    ))
+  ), [favourites])
 
-  const renderSearchedCards = searchedData.map((card: Card) => (
-    <Card
-      key={card.id}
-      id={card.id}
-      image={card.image}
-      isFavourite={card.isFavourite}
-      handleFavourite={() => handleSearchedFavourites(card.id)}
-    />
-  ))
-
-
+  const renderSearchedCards = useMemo(()=>(
+    searchedData.map((card: Card) => (
+      <Card
+        key={card.id}
+        id={card.id}
+        image={card.image}
+        isFavourite={card.isFavourite}
+        handleFavourite={() => handleSearchedFavourites(card.id)}
+      />
+    ))
+  ), [searchedData]) 
 
   return (
     <>
@@ -71,9 +73,9 @@ const Home: NextPage<Props> = ({ cards }) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { data } = await axios.get('https://api.giphy.com/v1/gifs/trending?api_key=HC5YScnd2Kws9G5xAgZFUAC0XGj16Xse')
+  const { data } = await getTrendingGifs()
 
-  const cards: Card[] = data.data.map((card: any) => ({
+  const cards: Card[] = data.map((card: any) => ({
     id: card.id,
     image: card.images.original.url,
     isFavourite: false
