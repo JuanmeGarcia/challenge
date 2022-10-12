@@ -1,4 +1,4 @@
- Este repositorio ha sido creado únicamente para realizar el challenge de "Techify".
+ #Este repositorio ha sido creado únicamente para realizar el challenge de "Techify".
 
 ## Tecnologias utilizadas:
 
